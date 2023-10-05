@@ -1,0 +1,93 @@
+body{
+  margin: 0;
+}
+
+a:link {
+  color: white;
+  text-decoration: none;
+}
+
+a:visited {
+  color: rgb(255, 255, 255);
+  text-decoration: none;
+}
+
+.hero-banner {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: rgb(34, 34, 34);
+  background-image: linear-gradient(rgba(0, 0, 0, 0.319), rgba(0, 0, 0, 0.312)), url("https://images.pexels.com/photos/958545/pexels-photo-958545.jpeg?auto=compress&cs=tinysrgb&w=1600");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.flex-container {
+  font-family: monospace;
+  background-color: #eeeae7;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.flex-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40vh;
+  width: 80vw;
+}
+
+.flex-container main {
+    max-width: 80vw;
+    margin: 20px auto;
+    padding: 100px;
+    background-color: #ebe6e1;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.flex-container h1, h2, h3 {
+    color: #333;
+}
+
+.flex-container ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.flex-container li {
+    margin-bottom: 10px;
+}
+
+.flex-container .ingredients, .instructions {
+    margin-top: 20px;
+}
+
+.flex-container footer {
+    text-align: center;
+    padding: 1em 0;
+    background-color: #333;
+    color: #fff;
+}
+
+.card {
+  padding: 20px;
+}
+
+.gradient-bg {
+  background: #8E0E00;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #fcb902, #e2311d);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #fcb902, #e63a27); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+button:disabled{
+  color: rgb(255, 255, 255) !important;
+  text-decoration: underline;
+}
+
