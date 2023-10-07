@@ -81,7 +81,19 @@ const RecipePage = () => {
   return (
     <>
       <div className="recipe-page">
+        <Typography variant="h4" gutterBottom style={{ textAlign: "center" }}>
+          Recipe Info
+        </Typography>
         <Container maxWidth="md" style={{ marginTop: "40px" }}>
+          <img
+            src={image}
+            alt={recipe.title}
+            style={{
+              width: "100%",
+              height: "auto",
+              padding: "",
+            }}
+          />
           <Paper
             elevation={3}
             style={{
@@ -89,17 +101,6 @@ const RecipePage = () => {
               backgroundColor: "rgba(255, 255, 255, 0.555)",
             }}
           >
-            <Typography variant="h4" gutterBottom>
-              Recipe Info
-            </Typography>
-            <img
-              src={image}
-              alt={recipe.title}
-              style={{
-                width: "100%", // Make the image fluid
-                height: "auto", // Maintain aspect ratio
-              }}
-            />
             <Typography variant="h5" gutterBottom color={"primary.main"}>
               {recipe.title}
             </Typography>
