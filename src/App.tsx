@@ -31,7 +31,7 @@ function App() {
         <ThemeProvider theme={theme}>
           <Routes>
             <Route path="/" element={<DemoHomePage/>} />
-            <Route path="/recipe-info/:id" element={<RecipePage />} />
+            <Route path="/recipe-info/:recipeId" element={<RecipePage />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/log-in" element={<LogInPage />} />
             <Route path="/my-recipes" element={<MyRecipes />} />

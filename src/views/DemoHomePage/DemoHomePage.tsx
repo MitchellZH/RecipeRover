@@ -213,8 +213,9 @@ export default function DemoHomePage() {
                   <input
                     type="text"
                     onChange={(event) => setSearchInput(event.target.value)}
+                    style={{padding: "30px"}}
                   />
-                  <button type="submit">Search</button>
+                  <button type="submit" style={{padding:"5px"}}>Search</button>
                 </form>
               </Stack>
             </Grid>

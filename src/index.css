@@ -25,6 +25,16 @@ a:visited {
   background-size: cover;
 }
 
+.recipe-page{
+  background-color: #fff3dd;
+  height: 100%;
+  padding-top: 100px;
+}
+
+.recipe{
+  background-color: rgba(255, 255, 255, 0.555);
+}
+
 .flex-container {
   font-family: monospace;
   background-color: #eeeae7;

@@ -11,6 +11,8 @@ import {
   Stack
 } from "@mui/material";
 
+import { Link } from "react-router-dom"
+
 import {useState} from 'react';
 
 interface IRecipe {
@@ -92,14 +94,9 @@ const RandomRecipes = ({randomRecipes, onAdd}: Props) => {
                 >
                   Add
                 </Button>
-                <Button
-                  variant="outlined"
-                  size="small"
-                  color="success"
-                  href={`/recipe-info/${recipe.id}`}
-                >
+                <Link to={`/recipe-info/${recipe.id}`} style={{color: "black"}}>
                   View
-                </Button>
+                </Link>
               </CardActions>
             </Card>
           </Grid>
