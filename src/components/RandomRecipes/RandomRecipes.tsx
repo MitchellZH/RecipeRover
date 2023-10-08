@@ -51,6 +51,10 @@ const RandomRecipes = ({randomRecipes, onAdd}: Props) => {
 
   return (
     <Container sx={{ py: 8 }} maxWidth="md">
+      <Typography variant="h4" gutterBottom style={{ textAlign: "center" }}>
+        Random Recipes
+      </Typography>
+      <hr style={{ marginBottom: "40px" }} />
       <Grid container spacing={4}>
         {currentRecipes.map((recipe, idx) => (
           <Grid item key={idx} xs={12} sm={6} md={4}>
@@ -88,14 +92,14 @@ const RandomRecipes = ({randomRecipes, onAdd}: Props) => {
               <CardActions>
                 <Button
                   variant="outlined"
-                  size="small"
                   color="success"
+                  sx={{ marginRight: "10px" }}
                   onClick={() => onAdd(recipe)}
                 >
                   Add
                 </Button>
-                <Link to={`/recipe-info/${recipe.id}`} style={{color: "black"}}>
-                  View
+                <Link to={`/recipe-info/${recipe.id}`}>
+                  <Button variant="outlined">View</Button>
                 </Link>
               </CardActions>
             </Card>

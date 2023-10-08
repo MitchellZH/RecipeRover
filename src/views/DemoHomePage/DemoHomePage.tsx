@@ -6,6 +6,7 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Link from "@mui/material/Link";
+import TextField from "@mui/material/TextField";
 import Nav from "../../components/Nav/Nav";
 import SearchedRecipes from "../../components/SearchedRecipes/SearchedRecipes";
 import RandomRecipes from "../../components/RandomRecipes/RandomRecipes";
@@ -198,26 +199,38 @@ export default function DemoHomePage() {
                 spacing={2}
                 justifyContent="center"
               >
-                <Button
-                  variant="contained"
-                  onClick={() => window.location.reload()}
-                >
-                  Explore Recipes
-                </Button>
                 <form
                   onSubmit={(event) => {
                     event.preventDefault();
                     setRecipeName(searchInput);
                   }}
                 >
-                  <input
-                    type="text"
+                  <TextField
+                    id="filled-basic"
+                    label="Enter food here"
+                    variant="filled"
                     onChange={(event) => setSearchInput(event.target.value)}
-                    style={{padding: "30px"}}
+                    color="primary"
+                    sx={{ backgroundColor: "white", marginBottom: "2px" }}
                   />
-                  <button type="submit" style={{padding:"5px"}}>Search</button>
+                  <Button
+                    type="submit"
+                    color="secondary"
+                    variant="contained"
+                    size="large"
+                    style={{ padding: "15px", marginBottom: "2px" }}
+                  >
+                    Search
+                  </Button>
                 </form>
               </Stack>
+              <Button
+                variant="contained"
+                onClick={() => window.location.reload()}
+                sx={{ textAlign: "center", display: "block", margin: "auto", marginTop: "20px" }}
+              >
+                Explore Recipes
+              </Button>
             </Grid>
           </Grid>
         </Container>

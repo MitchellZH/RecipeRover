@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
+import Nav from  "../../components/Nav/Nav";
 import {
   Container,
   Paper,
@@ -80,6 +81,7 @@ const RecipePage = () => {
 
   return (
     <>
+    <Nav />
       <div className="recipe-page">
         <Typography variant="h4" gutterBottom style={{ textAlign: "center" }}>
           Recipe Info
@@ -91,14 +93,15 @@ const RecipePage = () => {
             style={{
               width: "100%",
               height: "auto",
-              padding: "",
+              marginBottom: "0",
             }}
           />
           <Paper
             elevation={3}
             style={{
               padding: "30px",
-              backgroundColor: "rgba(255, 255, 255, 0.555)",
+              backgroundColor: "rgba(255, 255, 255, 0.7)",
+              marginBottom: "40px",
             }}
           >
             <Typography variant="h5" gutterBottom color={"primary.main"}>

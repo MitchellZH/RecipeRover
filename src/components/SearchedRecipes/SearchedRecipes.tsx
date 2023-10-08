@@ -1,5 +1,6 @@
 import { Container, Grid, Card, CardMedia, CardContent, Typography, CardActions, Button, Stack, Pagination } from '@mui/material';
 import  { useState } from 'react';
+import { Link } from "react-router-dom";
 
 interface IRecipe {
   id: number;
@@ -36,6 +37,10 @@ const SearchedRecipes = ({ searchedRecipes, onAdd }: Props) => {
 
   return (
     <Container sx={{ py: 8 }} maxWidth="md">
+      <Typography variant="h4" gutterBottom style={{ textAlign: "center" }}>
+        Search Results
+      </Typography>
+      <hr style={{ marginBottom: "40px" }} />
       <Grid container spacing={4}>
         {searchedRecipes.length > 1 &&
           currentRecipes.map((recipe, idx) => (
@@ -74,20 +79,17 @@ const SearchedRecipes = ({ searchedRecipes, onAdd }: Props) => {
                 <CardActions>
                   <Button
                     variant="outlined"
-                    size="small"
                     color="success"
+                    sx={{marginRight: "10px"}}
                     onClick={() => onAdd(recipe)}
                   >
                     Add
                   </Button>
-                  <Button
-                    variant="outlined"
-                    size="small"
-                    color="success"
-                    href={`/recipe-info/${recipe.id}`}
+                  <Link
+                    to={`/recipe-info/${recipe.id}`}
                   >
-                    View
-                  </Button>
+                    <Button variant="outlined">View</Button>
+                  </Link>
                 </CardActions>
               </Card>
             </Grid>

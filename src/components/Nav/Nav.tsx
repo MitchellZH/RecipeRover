@@ -63,21 +63,26 @@ export default function Nav() {
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <Typography
-            variant="h6"
-            noWrap
-            sx={{
-              mr: 2,
-              display: { xs: "none", md: "flex" },
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
-              flexGrow: 1,
-            }}
-          >
-            Cookbook Connect
-          </Typography>
+          <Box sx={{ flexGrow: 2, display: { xs: "none", md: "flex" } }}>
+            <Link to={"/"}>
+              <Typography
+                variant="h6"
+                noWrap
+                sx={{
+                  mr: 2,
+                  display: { xs: "none", md: "flex" },
+                  fontFamily: "monospace",
+                  fontWeight: 700,
+                  letterSpacing: ".3rem",
+                  color: "inherit",
+                  flexGrow: 1,
+                }}
+              >
+                Cookbook Connect
+              </Typography>
+            </Link>
+          </Box>
+
           {/* {responsive menu} */}
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
@@ -147,33 +152,33 @@ export default function Nav() {
               )}
             </Menu>
           </Box>
-          <Typography
-            variant="h5"
-            noWrap
-            sx={{
-              mr: 2,
-              display: { xs: "flex", md: "none" },
-              flexGrow: 1,
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
-            }}
-          >
-            Cookbook Connect
-          </Typography>
+          <Link to={"/"}>
+            <Typography
+              variant="h5"
+              noWrap
+              sx={{
+                mr: 2,
+                display: { xs: "flex", md: "none" },
+                flexGrow: 1,
+                fontFamily: "monospace",
+                fontWeight: 700,
+                letterSpacing: ".3rem",
+                color: "inherit",
+              }}
+            >
+              Cookbook Connect
+            </Typography>
+          </Link>
           {/* {end responsive menu} */}
 
           <Box sx={{ flexGrow: 0, display: { xs: "none", md: "flex" } }}>
-            {user.id && (
-              <Button disabled sx={{ my: 2, display: "block" }}>
-                <Typography variant="subtitle1">
-                  <b>{user.email}</b>
-                </Typography>
-              </Button>
-            )}
             {user.id ? (
               <>
+                <Button disabled sx={{ my: 2, display: "block" }}>
+                  <Typography variant="subtitle1">
+                    <b>{user.email}</b>
+                  </Typography>
+                </Button>
                 <Button
                   onClick={handleCloseNavMenu}
                   sx={{ my: 2, color: "white", display: "block" }}
@@ -184,7 +189,13 @@ export default function Nav() {
                   onClick={handleCloseNavMenu}
                   sx={{ my: 2, color: "white", display: "block" }}
                 >
-                  <Link to="/" onClick={() => {handleCloseNavMenu(); handleLogout();}}>
+                  <Link
+                    to="/"
+                    onClick={() => {
+                      handleCloseNavMenu();
+                      handleLogout();
+                    }}
+                  >
                     Log Out
                   </Link>
                 </Button>
