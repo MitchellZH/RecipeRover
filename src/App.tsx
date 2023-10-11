@@ -14,12 +14,17 @@ const theme = createTheme({
       dark: "#a30404",
     },
     secondary: {
-      main: "#ffffff"
+      main: "#ffffff",
     },
     success: {
       main: "#04a3a3",
       light: "#7bc9ca",
-      dark: "#006662",
+      dark: "#388e3c",
+    },
+    info: {
+      main: "#66bb6a",
+      light: "#81c784",
+      dark: "#388e3c",
     },
   },
 });

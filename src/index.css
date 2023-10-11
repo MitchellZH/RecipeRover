@@ -1,5 +1,6 @@
 body{
   margin: 0;
+  background-color: #eaeaea;
 }
 
 a:link {
@@ -92,8 +93,8 @@ a:visited {
 
 .gradient-bg {
   background: #8E0E00;  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, #fcb902, #e2311d);  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, #fcb902, #e63a27); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: -webkit-linear-gradient(to right, #fcb902, #be1e19);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #fcb902, #be1e19); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
 button:disabled{

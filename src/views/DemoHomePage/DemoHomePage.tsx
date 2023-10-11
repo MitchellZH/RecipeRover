@@ -10,6 +10,11 @@ import TextField from "@mui/material/TextField";
 import Nav from "../../components/Nav/Nav";
 import SearchedRecipes from "../../components/SearchedRecipes/SearchedRecipes";
 import RandomRecipes from "../../components/RandomRecipes/RandomRecipes";
+import IconButton from "@mui/material/IconButton";
+import SearchIcon from "@mui/icons-material/Search";
+import Paper from "@mui/material/Paper";
+import InputBase from "@mui/material/InputBase";
+import Divider from "@mui/material/Divider";
 import { doc, setDoc } from "firebase/firestore";
 import { auth, db } from "../../firebase";
 
@@ -27,12 +32,12 @@ interface IRecipe {
 
 function Copyright() {
   return (
-    <Typography variant="body2" color="text.secondary" align="center">
+    <Typography variant="body2" color="white" align="center">
       {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
+      <Link href="https://portfolio.mitchellhamm.com/">
+        <span style={{ color: "#7bc9ca" }}>Mitchell Hamm</span>
       </Link>{" "}
-      {new Date().getFullYear()}
+      2023
       {"."}
     </Typography>
   );
@@ -68,17 +73,6 @@ export default function DemoHomePage() {
       instructions: [],
     },
   ]);
-  const [addedRecipe, setAddedRecipe] = useState<IRecipe>({
-    id: 0,
-    title: "",
-    readyInMinutes: 0,
-    img: "",
-    summary: "",
-    dishTypes: [],
-    healthScore: 0,
-    ingredients: [],
-    instructions: [],
-  });
 
   useEffect(() => {
     if (recipeName) {
@@ -86,10 +80,7 @@ export default function DemoHomePage() {
     } else {
       randomData()
     }
-    if (addedRecipe.title.length > 1) {
-      addRecipe()
-    }
-  }, [recipeName, addedRecipe]);
+  }, [recipeName]);
 
   const recipeData = async (search: string) => {
     const url = `https://api.spoonacular.com/recipes/complexSearch?query=${search}&instructionsRequired=true&fillIngredients=true&addRecipeInformation=true&ignorePantry=false&number=99&limitLicense=false&ranking=2&apiKey=${import.meta.env.VITE_API_KEY}`;
@@ -155,15 +146,10 @@ export default function DemoHomePage() {
     }
   };
 
-  const onAdd = (recipe: IRecipe) => {
-    setAddedRecipe(recipe);
-    
-  };
-
-  const addRecipe = async () => {
+  const addRecipe = async (recipe: IRecipe) => {
     if (auth.currentUser) {
       const userId = auth.currentUser.uid
-      await setDoc(doc(db, "users", userId, "recipes", addedRecipe.title), addedRecipe);
+      await setDoc(doc(db, "users", userId, "recipes", recipe.title), recipe);
     }
   }
     
@@ -199,37 +185,47 @@ export default function DemoHomePage() {
                 spacing={2}
                 justifyContent="center"
               >
-                <form
+                <Paper
+                  component="form"
+                  sx={{
+                    p: "2px 4px",
+                    display: "flex",
+                    alignItems: "center",
+                    width: 400,
+                  }}
                   onSubmit={(event) => {
                     event.preventDefault();
                     setRecipeName(searchInput);
                   }}
                 >
-                  <TextField
-                    id="filled-basic"
-                    label="Enter food here"
-                    variant="filled"
+                  <InputBase
+                    sx={{ ml: 1, flex: 1 }}
+                    placeholder="Search Recipes"
+                    inputProps={{ "aria-label": "search recipes" }}
                     onChange={(event) => setSearchInput(event.target.value)}
-                    color="primary"
-                    sx={{ backgroundColor: "white", marginBottom: "2px" }}
                   />
-                  <Button
+                  <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
+                  <IconButton
                     type="submit"
-                    color="secondary"
-                    variant="contained"
-                    size="large"
-                    style={{ padding: "15px", marginBottom: "2px" }}
+                    sx={{ p: "10px" }}
+                    aria-label="search"
                   >
-                    Search
-                  </Button>
-                </form>
+                    <SearchIcon />
+                  </IconButton>
+                </Paper>
               </Stack>
               <Button
+                size="large"
                 variant="contained"
                 onClick={() => window.location.reload()}
-                sx={{ textAlign: "center", display: "block", margin: "auto", marginTop: "20px" }}
+                sx={{
+                  textAlign: "center",
+                  display: "block",
+                  margin: "auto",
+                  mt: 5,
+                }}
               >
-                Explore Recipes
+                Random Recipes
               </Button>
             </Grid>
           </Grid>
@@ -237,23 +233,15 @@ export default function DemoHomePage() {
       </div>
       <main>
         {searchedRecipes.length > 2 ? (
-          <SearchedRecipes searchedRecipes={searchedRecipes} onAdd={onAdd} />
+          <SearchedRecipes
+            searchedRecipes={searchedRecipes}
+            addRecipe={addRecipe}
+          />
         ) : (
-          <RandomRecipes randomRecipes={randomRecipes} onAdd={onAdd} />
+          <RandomRecipes randomRecipes={randomRecipes} addRecipe={addRecipe} />
         )}
       </main>
-      <Box sx={{ bgcolor: "background.paper", p: 6 }} component="footer">
-        <Typography variant="h6" align="center" gutterBottom>
-          Footer
-        </Typography>
-        <Typography
-          variant="subtitle1"
-          align="center"
-          color="text.secondary"
-          component="p"
-        >
-          Something here to give the footer a purpose!
-        </Typography>
+      <Box sx={{ bgcolor: "#494949", color: "white", p: 6 }} component="footer">
         <Copyright />
       </Box>
     </>

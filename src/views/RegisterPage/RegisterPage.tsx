@@ -7,6 +7,7 @@ import Box from "@mui/material/Box";
 import Link from "@mui/material/Link";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
+import Grid from "@mui/material/Grid";
 import { useState, FormEvent } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase";
@@ -105,6 +106,17 @@ export default function RegisterPage() {
             >
               Back to Home
             </Button>
+            <Grid container>
+              <Grid item>
+                <Link
+                  href="/log-in"
+                  variant="body2"
+                  style={{ color: "#be1e19" }}
+                >
+                  {"Already have an account? Log In."}
+                </Link>
+              </Grid>
+            </Grid>
           </Box>
         </Box>
       </Container>
