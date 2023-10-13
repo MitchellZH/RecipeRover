@@ -29,10 +29,10 @@ interface IRecipe {
 
 interface Props {
   randomRecipes: IRecipe[];
-  addRecipe: (recipe: IRecipe ) => void;
+  onAdd: (recipe: IRecipe ) => void;
 }
 
-const RandomRecipes = ({randomRecipes, addRecipe}: Props) => {
+const RandomRecipes = ({randomRecipes, onAdd}: Props) => {
   
   const [currentPage, setCurrentPage] = useState(1);
   const recipesPerPage = 9;
@@ -50,7 +50,7 @@ const RandomRecipes = ({randomRecipes, addRecipe}: Props) => {
   };
 
   return (
-    <Container sx={{ py: 8 }} maxWidth="lg">
+    <Container sx={{ py: 8 }} maxWidth="md">
       <Typography variant="h4" gutterBottom style={{ textAlign: "center" }}>
         Random Recipes
       </Typography>
@@ -94,17 +94,12 @@ const RandomRecipes = ({randomRecipes, addRecipe}: Props) => {
                   variant="outlined"
                   color="success"
                   sx={{ marginRight: "10px" }}
-                  onClick={() => addRecipe(recipe)}
+                  onClick={() => onAdd(recipe)}
                 >
-                  Save
+                  Add
                 </Button>
-                <Link
-                  
-                  to={`/recipe-info/${recipe.id}`}
-                >
-                  <Button color="info" variant="outlined">
-                    View
-                  </Button>
+                <Link to={`/recipe-info/${recipe.id}`}>
+                  <Button variant="outlined">View</Button>
                 </Link>
               </CardActions>
             </Card>

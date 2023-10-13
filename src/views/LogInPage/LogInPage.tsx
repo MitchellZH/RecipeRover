@@ -114,7 +114,7 @@ export default function LogInPage() {
                   variant="body2"
                   style={{ color: "#be1e19" }}
                 >
-                  {"Don't have an account? Sign Up."}
+                  {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>
             </Grid>

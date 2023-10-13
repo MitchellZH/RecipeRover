@@ -16,10 +16,10 @@ interface IRecipe {
 
 interface Props {
   searchedRecipes: IRecipe[];
-  addRecipe: (recipe: IRecipe) => void;
+  onAdd: (recipe: IRecipe) => void;
 }
 
-const SearchedRecipes = ({ searchedRecipes, addRecipe }: Props) => {
+const SearchedRecipes = ({ searchedRecipes, onAdd }: Props) => {
   const [currentPage, setCurrentPage] = useState(1);
   const recipesPerPage = 9;
 
@@ -36,7 +36,7 @@ const SearchedRecipes = ({ searchedRecipes, addRecipe }: Props) => {
   };
 
   return (
-    <Container sx={{ py: 8 }} maxWidth="lg">
+    <Container sx={{ py: 8 }} maxWidth="md">
       <Typography variant="h4" gutterBottom style={{ textAlign: "center" }}>
         Search Results
       </Typography>
@@ -80,15 +80,15 @@ const SearchedRecipes = ({ searchedRecipes, addRecipe }: Props) => {
                   <Button
                     variant="outlined"
                     color="success"
-                    sx={{ marginRight: "10px" }}
-                    onClick={() => addRecipe(recipe)}
+                    sx={{marginRight: "10px"}}
+                    onClick={() => onAdd(recipe)}
                   >
                     Add
                   </Button>
-                  <Link to={`/recipe-info/${recipe.id}`}>
-                    <Button color="info" variant="outlined">
-                      View
-                    </Button>
+                  <Link
+                    to={`/recipe-info/${recipe.id}`}
+                  >
+                    <Button variant="outlined">View</Button>
                   </Link>
                 </CardActions>
               </Card>
