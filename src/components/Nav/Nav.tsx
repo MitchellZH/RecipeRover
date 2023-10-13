@@ -8,17 +8,19 @@ import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import MenuItem from "@mui/material/MenuItem";
+import Avatar from "@mui/material/Avatar";
+import Tooltip from "@mui/material/Tooltip";
 import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
-import  { auth } from '../../firebase';
-import { onAuthStateChanged, signOut } from 'firebase/auth';
-import  { useEffect, useState } from 'react';
+import { auth } from "../../firebase";
+import { onAuthStateChanged, signOut } from "firebase/auth";
+import { useEffect, useState } from "react";
 
 export default function Nav() {
   const [user, setUser] = useState({
-    id: '',
-    email: ''
-  })
+    id: "",
+    email: "",
+  });
 
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
@@ -32,32 +34,34 @@ export default function Nav() {
     setAnchorElNav(null);
   };
 
+
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         const uid = user.uid;
-        const email = user.email
-        if(typeof email === 'string') {
+        const email = user.email;
+        if (typeof email === "string") {
           setUser({
             id: uid,
             email: email,
           });
         }
-      } 
+      }
     });
-  }, [])
+  }, []);
 
   const handleLogout = () => {
-    signOut(auth).then(() => {
-      setUser({
-        id: '',
-        email: ''
+    signOut(auth)
+      .then(() => {
+        setUser({
+          id: "",
+          email: "",
+        });
       })
-    }).catch((error) => {
-      alert(error)
-    });
-  }
-  
+      .catch((error) => {
+        alert(error);
+      });
+  };
 
   return (
     <AppBar position="static">
@@ -131,6 +135,13 @@ export default function Nav() {
                       </Typography>
                     </Link>
                   </MenuItem>
+                  <MenuItem onClick={handleCloseNavMenu}>
+                    <Link to={"/my-profile"}>
+                      <Typography textAlign="center" color={"black"}>
+                        My Profile
+                      </Typography>
+                    </Link>
+                  </MenuItem>
                 </div>
               ) : (
                 <div>
@@ -174,10 +185,21 @@ export default function Nav() {
           <Box sx={{ flexGrow: 0, display: { xs: "none", md: "flex" } }}>
             {user.id ? (
               <>
+                <Tooltip title="Open settings">
+                  <IconButton disabled={true} sx={{ p: 0 }}>
+                    <Avatar alt="avatar" src={auth.currentUser?.photoURL} />
+                  </IconButton>
+                </Tooltip>
                 <Button disabled sx={{ my: 2, display: "block" }}>
                   <Typography variant="subtitle1">
                     <b>{user.email}</b>
                   </Typography>
+                </Button>
+                <Button
+                  onClick={handleCloseNavMenu}
+                  sx={{ my: 2, color: "white", display: "block" }}
+                >
+                  <Link to="/my-profile">My Profile</Link>
                 </Button>
                 <Button
                   onClick={handleCloseNavMenu}

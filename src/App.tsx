@@ -5,6 +5,7 @@ import RecipePage from "./views/RecipePage/RecipePage";
 import RegisterPage from "./views/RegisterPage/RegisterPage";
 import LogInPage from "./views/LogInPage/LogInPage";
 import MyRecipes from "./views/MyRecipes/MyRecipes";
+import ProfilePage from "./views/ProfilePage/ProfilePage";
 
 const theme = createTheme({
   palette: {
@@ -14,12 +15,17 @@ const theme = createTheme({
       dark: "#a30404",
     },
     secondary: {
-      main: "#ffffff"
+      main: "#ffffff",
     },
     success: {
       main: "#04a3a3",
       light: "#7bc9ca",
-      dark: "#006662",
+      dark: "#388e3c",
+    },
+    info: {
+      main: "#66bb6a",
+      light: "#81c784",
+      dark: "#388e3c",
     },
   },
 });
@@ -30,11 +36,12 @@ function App() {
       <BrowserRouter>
         <ThemeProvider theme={theme}>
           <Routes>
-            <Route path="/" element={<DemoHomePage/>} />
+            <Route path="/" element={<DemoHomePage />} />
             <Route path="/recipe-info/:recipeId" element={<RecipePage />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/log-in" element={<LogInPage />} />
             <Route path="/my-recipes" element={<MyRecipes />} />
+            <Route path="/my-profile" element={<ProfilePage />} />
           </Routes>
         </ThemeProvider>
       </BrowserRouter>

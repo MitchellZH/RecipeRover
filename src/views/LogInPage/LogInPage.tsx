@@ -32,7 +32,7 @@ export default function LogInPage() {
         const errorMessage = error.message;
         console.log(errorCode, errorMessage);
       });
-    navigate('/')
+    navigate("/");
   };
 
   return (
@@ -54,7 +54,6 @@ export default function LogInPage() {
             alignItems: "center",
           }}
         >
-          
           <Typography component="h1" variant="h5">
             Log In
           </Typography>
@@ -114,7 +113,7 @@ export default function LogInPage() {
                   variant="body2"
                   style={{ color: "#be1e19" }}
                 >
-                  {"Don't have an account? Sign Up"}
+                  {"Don't have an account? Sign Up."}
                 </Link>
               </Grid>
             </Grid>

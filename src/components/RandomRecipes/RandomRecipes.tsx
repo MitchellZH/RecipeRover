@@ -8,12 +8,12 @@ import {
   CardActions,
   Button,
   Pagination,
-  Stack
+  Stack,
 } from "@mui/material";
 
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
 
-import {useState} from 'react';
+import { useState } from "react";
 
 interface IRecipe {
   id: number;
@@ -29,11 +29,10 @@ interface IRecipe {
 
 interface Props {
   randomRecipes: IRecipe[];
-  onAdd: (recipe: IRecipe ) => void;
+  addRecipe: (recipe: IRecipe) => void;
 }
 
-const RandomRecipes = ({randomRecipes, onAdd}: Props) => {
-  
+const RandomRecipes = ({ randomRecipes, addRecipe }: Props) => {
   const [currentPage, setCurrentPage] = useState(1);
   const recipesPerPage = 9;
 
@@ -44,13 +43,13 @@ const RandomRecipes = ({randomRecipes, onAdd}: Props) => {
     indexOfLastRecipe
   );
 
-  const paginate = (e, value:number) => {
+  const paginate = (e, value: number) => {
     setCurrentPage(value);
     window.scrollTo({ top: 1800, behavior: "smooth" });
   };
 
   return (
-    <Container sx={{ py: 8 }} maxWidth="md">
+    <Container sx={{ py: 8 }} maxWidth="lg">
       <Typography variant="h4" gutterBottom style={{ textAlign: "center" }}>
         Random Recipes
       </Typography>
@@ -94,12 +93,14 @@ const RandomRecipes = ({randomRecipes, onAdd}: Props) => {
                   variant="outlined"
                   color="success"
                   sx={{ marginRight: "10px" }}
-                  onClick={() => onAdd(recipe)}
+                  onClick={() => addRecipe(recipe)}
                 >
-                  Add
+                  Save
                 </Button>
                 <Link to={`/recipe-info/${recipe.id}`}>
-                  <Button variant="outlined">View</Button>
+                  <Button color="info" variant="outlined">
+                    View
+                  </Button>
                 </Link>
               </CardActions>
             </Card>

@@ -1,5 +1,16 @@
-import { Container, Grid, Card, CardMedia, CardContent, Typography, CardActions, Button, Stack, Pagination } from '@mui/material';
-import  { useState } from 'react';
+import {
+  Container,
+  Grid,
+  Card,
+  CardMedia,
+  CardContent,
+  Typography,
+  CardActions,
+  Button,
+  Stack,
+  Pagination,
+} from "@mui/material";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
 interface IRecipe {
@@ -16,10 +27,10 @@ interface IRecipe {
 
 interface Props {
   searchedRecipes: IRecipe[];
-  onAdd: (recipe: IRecipe) => void;
+  addRecipe: (recipe: IRecipe) => void;
 }
 
-const SearchedRecipes = ({ searchedRecipes, onAdd }: Props) => {
+const SearchedRecipes = ({ searchedRecipes, addRecipe }: Props) => {
   const [currentPage, setCurrentPage] = useState(1);
   const recipesPerPage = 9;
 
@@ -36,7 +47,7 @@ const SearchedRecipes = ({ searchedRecipes, onAdd }: Props) => {
   };
 
   return (
-    <Container sx={{ py: 8 }} maxWidth="md">
+    <Container sx={{ py: 8 }} maxWidth="lg">
       <Typography variant="h4" gutterBottom style={{ textAlign: "center" }}>
         Search Results
       </Typography>
@@ -80,15 +91,15 @@ const SearchedRecipes = ({ searchedRecipes, onAdd }: Props) => {
                   <Button
                     variant="outlined"
                     color="success"
-                    sx={{marginRight: "10px"}}
-                    onClick={() => onAdd(recipe)}
+                    sx={{ marginRight: "10px" }}
+                    onClick={() => addRecipe(recipe)}
                   >
                     Add
                   </Button>
-                  <Link
-                    to={`/recipe-info/${recipe.id}`}
-                  >
-                    <Button variant="outlined">View</Button>
+                  <Link to={`/recipe-info/${recipe.id}`}>
+                    <Button color="info" variant="outlined">
+                      View
+                    </Button>
                   </Link>
                 </CardActions>
               </Card>
@@ -111,4 +122,4 @@ const SearchedRecipes = ({ searchedRecipes, onAdd }: Props) => {
     </Container>
   );
 };
-export default SearchedRecipes
+export default SearchedRecipes;

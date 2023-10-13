@@ -4,55 +4,83 @@ import {
   Card,
   CardMedia,
   CardContent,
+  CardActions,
+  Button,
   Typography,
   Stack,
   Pagination,
 } from "@mui/material";
-import  { DocumentData, collection, getDocs } from "firebase/firestore";
+import {
+  DocumentData,
+  collection,
+  getDocs,
+  doc,
+  deleteDoc,
+} from "firebase/firestore";
 import { useState, useEffect } from "react";
 import { db, auth } from "../../firebase";
 import Nav from "../../components/Nav/Nav";
+import { Link } from "react-router-dom";
+import { onAuthStateChanged } from "firebase/auth";
 
 const MyRecipes = () => {
-  const [recipes, setRecipes] = useState<Array<DocumentData>>([{}]);
+  const [recipes, setRecipes] = useState<Array<DocumentData>>([]);
   useEffect(() => {
-    getRecipes();
-  }, [])
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        getRecipes();
+      }
+    });
+  }, []);
 
-   const getRecipes = async () => {
-     if (auth.currentUser) {
-       const userId = auth.currentUser.uid;
-       const allRecipes = await getDocs(
-         collection(db, "users", userId, "recipes")
-       );
-       allRecipes.forEach((recipe) => {
-         setRecipes(recipes => [...recipes, recipe.data()]);
-       });
-       console.log(recipes);
-     }
-   };
+  const getRecipes = async () => {
+    if (auth.currentUser) {
+      const userId = auth.currentUser.uid;
+      const recipesCollection = collection(db, "users", userId, "recipes");
 
-    const [currentPage, setCurrentPage] = useState(1);
-    const recipesPerPage = 9;
+      const allRecipes = await getDocs(recipesCollection);
+      setRecipes(() => {
+        return allRecipes.docs.map((recipe) => ({
+          id: recipe.id,
+          ...recipe.data(),
+        }));
+      });
+    }
+  };
 
-    const indexOfLastRecipe = currentPage * recipesPerPage;
-    const indexOfFirstRecipe = indexOfLastRecipe - recipesPerPage;
-    const currentRecipes = recipes.slice(
-      indexOfFirstRecipe,
-      indexOfLastRecipe
-    );
+  const handleDelete = async (recipeId: number, recipeTitle: string) => {
+    if (auth.currentUser) {
+      const userId = auth.currentUser.uid;
 
-    const paginate = (e, value: number) => {
-      setCurrentPage(value);
-      window.scrollTo({ top: 1800, behavior: "smooth" });
-    };
+      await deleteDoc(doc(db, "users", userId, "recipes", recipeTitle));
+
+      setRecipes((prevRecipes) =>
+        prevRecipes.filter((recipe) => recipe.id !== recipeId)
+      );
+    }
+  };
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const recipesPerPage = 9;
+  const indexOfLastRecipe = currentPage * recipesPerPage;
+  const indexOfFirstRecipe = indexOfLastRecipe - recipesPerPage;
+  const currentRecipes = recipes.slice(indexOfFirstRecipe, indexOfLastRecipe);
+
+  const paginate = (e: unknown, value: number) => {
+    setCurrentPage(value);
+    window.scrollTo({ top: 1800, behavior: "smooth" });
+  };
 
   return (
     <>
       <Nav />
-      <Container sx={{ py: 8 }} maxWidth="md">
+      <Container sx={{ py: 8 }} maxWidth="lg">
+        <Typography variant="h4" gutterBottom style={{ textAlign: "center" }}>
+          My Recipes
+        </Typography>
+        <hr style={{ marginBottom: "40px" }} />
         <Grid container spacing={4}>
-          {recipes.length > 1 &&
+          {recipes.length > 0 &&
             currentRecipes.map((recipe, idx) => (
               <Grid item key={idx} xs={12} sm={6} md={4}>
                 <Card
@@ -83,11 +111,27 @@ const MyRecipes = () => {
                     <Typography variant="subtitle2">
                       <b>Category:</b>
                       <br></br>|{" "}
-                      {recipe.dishTypes.map(
-                        (dishType: string) => dishType + " | "
-                      )}
+                      {recipe.dishTypes.map((dishType: string) => dishType + " | ")}
                     </Typography>
                   </CardContent>
+                  <CardActions>
+                    <Link to={`/recipe-info/${recipe.id}`}>
+                      <Button
+                        sx={{ marginRight: "10px" }}
+                        color="info"
+                        variant="outlined"
+                      >
+                        View
+                      </Button>
+                    </Link>
+                    <Button
+                      variant="outlined"
+                      color="error"
+                      onClick={() => handleDelete(recipe.id, recipe.title)}
+                    >
+                      Delete
+                    </Button>
+                  </CardActions>
                 </Card>
               </Grid>
             ))}

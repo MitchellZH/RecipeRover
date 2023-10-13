@@ -1,14 +1,9 @@
-import {useEffect, useState} from "react";
-import {useParams} from "react-router-dom";
-import Nav from  "../../components/Nav/Nav";
-import {
-  Container,
-  Paper,
-  Typography,
-  List,
-  ListItem,
-  ListItemText
-} from "@mui/material";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import Nav from "../../components/Nav/Nav";
+import { Container, Paper, Typography, Button } from "@mui/material";
+import { doc, setDoc } from "firebase/firestore";
+import { auth, db } from "../../firebase";
 
 interface IRecipe {
   id: number;
@@ -23,8 +18,7 @@ interface IRecipe {
 }
 
 const RecipePage = () => {
-
-  const {recipeId} = useParams();
+  const { recipeId } = useParams();
   const [recipe, setRecipe] = useState<IRecipe>({
     id: 0,
     title: "",
@@ -38,18 +32,14 @@ const RecipePage = () => {
   });
   const [ingredients, setIngredients] = useState<Array<string>>([]);
   const [instructions, setInstructions] = useState<Array<string>>([]);
-  const [image, setImage] = useState<string>("")
-   
+
   useEffect(() => {
-    console.log(recipe.img)
     console.log("recipeId:", recipeId);
     if (recipeId) {
       const id = parseInt(recipeId, 10);
       recipeData(id);
     }
-  },[])
-
-  
+  }, []);
 
   const recipeData = async (id: number) => {
     const url = `https://api.spoonacular.com/recipes/${id}/information?apiKey=${
@@ -72,23 +62,39 @@ const RecipePage = () => {
       const newInstructions = data.analyzedInstructions[0].steps.map(
         (step: { step: string }) => step.step
       );
-      setImage(data.image);
       setIngredients(newIngredients);
       setInstructions(newInstructions);
-      setRecipe(data);
+      setRecipe({
+        id: data.id,
+        title: data.title,
+        readyInMinutes: data.readyInMinutes,
+        img: data.image,
+        summary: data.summary,
+        dishTypes: data.dishTypes,
+        healthScore: data.healthScore,
+        ingredients: data.extendedIngredients,
+        instructions: data.analyzedInstructions,
+      });
+    }
+  };
+
+  const addRecipe = async (recipe: IRecipe) => {
+    if (auth.currentUser) {
+      const userId = auth.currentUser.uid;
+      await setDoc(doc(db, "users", userId, "recipes", recipe.title), recipe);
     }
   };
 
   return (
     <>
-    <Nav />
+      <Nav />
       <div className="recipe-page">
         <Typography variant="h4" gutterBottom style={{ textAlign: "center" }}>
-          Recipe Info
+          Recipe Details
         </Typography>
         <Container maxWidth="md" style={{ marginTop: "40px" }}>
           <img
-            src={image}
+            src={recipe.img}
             alt={recipe.title}
             style={{
               width: "100%",
@@ -107,6 +113,14 @@ const RecipePage = () => {
             <Typography variant="h5" gutterBottom color={"primary.main"}>
               {recipe.title}
             </Typography>
+            <Button
+              variant="outlined"
+              color="success"
+              sx={{ marginRight: "10px" }}
+              onClick={() => addRecipe(recipe)}
+            >
+              Add
+            </Button>
             <hr />
             <Typography variant="subtitle1">
               <strong>Prep Time:</strong> {recipe.healthScore}
