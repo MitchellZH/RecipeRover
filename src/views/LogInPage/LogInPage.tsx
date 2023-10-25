@@ -49,7 +49,7 @@ export default function LogInPage() {
         <Alert
           variant="outlined"
           severity="error"
-          sx={{ backgroundColor: "rgba(0, 0, 0, .75)", color: "red" }}
+          sx={{ backgroundColor: "black", color: "red" }}
           onClose={() => {
             setError_(false);
           } }

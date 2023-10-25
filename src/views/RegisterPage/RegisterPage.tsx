@@ -48,13 +48,13 @@ export default function RegisterPage() {
       >
         <Alert
           variant="outlined"
-          sx={{ backgroundColor: "rgba(70, 0, 0, .75)", color: "#14fa10" }}
+          sx={{ backgroundColor: "black", color: "green" }}
           severity="info"
           onClose={() => {
             setSuccess(false);
           }}
         >
-          Register successful. you can now login.
+          Register successful. you are logged in.
         </Alert>
       </Stack>
       <Stack
@@ -64,7 +64,7 @@ export default function RegisterPage() {
         <Alert
           variant="outlined"
           severity="error"
-          sx={{ backgroundColor: "rgba(0, 0, 0, .75)", color: "red" }}
+          sx={{ backgroundColor: "black", color: "red" }}
           onClose={() => {
             setError_(false);
           }}

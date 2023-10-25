@@ -171,6 +171,7 @@ export default function DemoHomePage() {
         }
       );
       setSearchedRecipes(recipes_);
+      
     }
   };
 
@@ -232,7 +233,6 @@ export default function DemoHomePage() {
         );
         setRandomRecipes(recipes_);
       
-        alert("Invalid data format for recipes");
       
     }
   };
@@ -251,7 +251,7 @@ export default function DemoHomePage() {
           open={open}
           autoHideDuration={6000}
           onClose={handleClose}
-          message="Recipe added"
+          message="Recipe Saved!"
           action={action}
         />
       </div>

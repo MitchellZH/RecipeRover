@@ -43,7 +43,7 @@ const SearchedRecipes = ({ searchedRecipes, addRecipe, handleClick }: Props) => 
   );
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const paginate = (e: any, value: number) => {
+  const paginate = (_e: any, value: number) => {
     setCurrentPage(value);
     window.scrollTo({ top: 1800, behavior: "smooth" });
   };
@@ -96,7 +96,7 @@ const SearchedRecipes = ({ searchedRecipes, addRecipe, handleClick }: Props) => 
                     sx={{ marginRight: "10px" }}
                     onClick={() => {addRecipe(recipe), handleClick()}}
                   >
-                    Add
+                    Save
                   </Button>
                   <Link to={`/recipe-info/${recipe.id}`}>
                     <Button color="info" variant="outlined">

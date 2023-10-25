@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Nav from "../../components/Nav/Nav";
-import { Container, Paper, Typography, Button } from "@mui/material";
+import { Container, Paper, Typography, Button, IconButton, Snackbar } from "@mui/material";
 import { doc, setDoc } from "firebase/firestore";
 import { auth, db } from "../../firebase";
+import CloseIcon from "@mui/icons-material/Close";
 
 interface IRecipe {
   id: number;
@@ -32,6 +33,39 @@ const RecipePage = () => {
   });
   const [ingredients, setIngredients] = useState<Array<string>>([]);
   const [instructions, setInstructions] = useState<Array<string>>([]);
+  const [open, setOpen] = useState(false);
+
+  const handleClick = () => {
+    if (auth.currentUser) {
+      setOpen(true);
+    } else {
+      alert("please log in to use this feature");
+    }
+  };
+
+  const handleClose = (
+    _event: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+  const action = (
+    <>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleClose}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </>
+  );
 
   useEffect(() => {
     console.log("recipeId:", recipeId);
@@ -39,6 +73,7 @@ const RecipePage = () => {
       const id = parseInt(recipeId, 10);
       recipeData(id);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const recipeData = async (id: number) => {
@@ -87,6 +122,15 @@ const RecipePage = () => {
 
   return (
     <>
+      <div>
+        <Snackbar
+          open={open}
+          autoHideDuration={6000}
+          onClose={handleClose}
+          message="Recipe Saved!"
+          action={action}
+        />
+      </div>
       <Nav />
       <div className="recipe-page">
         <Typography variant="h4" gutterBottom style={{ textAlign: "center" }}>
@@ -117,9 +161,9 @@ const RecipePage = () => {
               variant="outlined"
               color="success"
               sx={{ marginRight: "10px" }}
-              onClick={() => addRecipe(recipe)}
+              onClick={() => {addRecipe(recipe), handleClick();}}
             >
-              Add
+              Save
             </Button>
             <hr />
             <Typography variant="subtitle1">

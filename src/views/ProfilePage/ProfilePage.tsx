@@ -1,32 +1,31 @@
-import {useEffect, useState} from "react";
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { useEffect, useState } from "react";
 import { storage, auth } from "../../firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import defaultUser from "../../assets/images/defaultuser.png";
 import Nav from "../../components/Nav/Nav";
-import { onAuthStateChanged, updateProfile } from "firebase/auth";
+import { User, onAuthStateChanged, updateProfile } from "firebase/auth";
 import { Container, Grid, Paper, Typography } from "@mui/material";
+import { ChangeEvent } from "react"; // Import ChangeEvent
 
 const ProfilePage = () => {
-  const [photo, setPhoto] = useState(null);
+  const [photo, setPhoto] = useState<null | File>(null);
   const [photoURL, setPhotoURL] = useState(defaultUser);
-  const [user, setUser] = useState({
-    id: "",
-    email: "",
-  });
 
   useEffect(() => {
-    console.log(auth.currentUser)
+    console.log(auth.currentUser);
     onAuthStateChanged(auth, (user) => {
       if (user?.photoURL) {
-        const userImg: string = String(user.photoURL)
+        const userImg: string = String(user.photoURL);
         setPhotoURL(userImg);
         console.log(userImg);
       }
     });
-  }, [])
+  }, []);
 
-  function handleChange(e) {
-    if (e.target.files[0]) {
+  // Correct the type of the parameter
+  function handleChange(e: ChangeEvent<HTMLInputElement>) {
+    if (e.target.files && e.target.files[0]) {
       setPhoto(e.target.files[0]);
     }
   }
@@ -35,25 +34,34 @@ const ProfilePage = () => {
     upload(photo, auth.currentUser);
   }
 
-  async function upload(file, currentUser) {
+  async function upload(
+    file: Blob | ArrayBuffer | null,
+    currentUser: User | null
+  ) {
     const fileRef = ref(storage, auth.currentUser?.uid + ".png");
 
-    uploadBytes(fileRef, file).then(() => {
-      getDownloadURL(fileRef)
-        .then((url) => {
-          updateProfile(currentUser, {photoURL:url})
-          setPhotoURL(url);
+    if (file instanceof Blob) {
+      // Check if the file is a Blob
+      uploadBytes(fileRef, file)
+        .then(() => {
+          getDownloadURL(fileRef)
+            .then((url) => {
+              if (currentUser) {
+                updateProfile(currentUser, { photoURL: url });
+              }
+              setPhotoURL(url);
+            })
+            .catch((error) => {
+              console.log(error.message, "error getting the image URL");
+            });
+          setPhoto(null);
         })
         .catch((error) => {
-          console.log(error.message, "error getting the image url");
+          console.log(error.message);
         });
-        setPhoto(null)
-    })
-    .catch((error) => {
-      console.log(error.message)
-    });
+    }
   }
-    
+
   return (
     <>
       <Nav />
@@ -81,7 +89,7 @@ const ProfilePage = () => {
                   src={photoURL}
                   alt={`${auth.currentUser}'s Avatar`}
                   className="avatar"
-                  style={{ maxWidth: "300px", minWidth:"100px" }}
+                  style={{ maxWidth: "300px", minWidth: "100px" }}
                 />
               </Grid>
               <Grid sx={{ textAlign: "center" }} item xs={12}>
@@ -96,5 +104,5 @@ const ProfilePage = () => {
       </Container>
     </>
   );
-}
+};
 export default ProfilePage;

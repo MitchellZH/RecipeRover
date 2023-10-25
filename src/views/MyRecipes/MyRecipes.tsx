@@ -68,7 +68,7 @@ const MyRecipes = () => {
   const indexOfFirstRecipe = indexOfLastRecipe - recipesPerPage;
   const currentRecipes = recipes.slice(indexOfFirstRecipe, indexOfLastRecipe);
 
-  const paginate = (e: unknown, value: number) => {
+  const paginate = (_e: unknown, value: number) => {
     setCurrentPage(value);
     window.scrollTo({ top: 1800, behavior: "smooth" });
   };

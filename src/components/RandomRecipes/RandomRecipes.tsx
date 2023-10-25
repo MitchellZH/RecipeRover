@@ -45,7 +45,7 @@ const RandomRecipes = ({ randomRecipes, addRecipe, handleClick }: Props) => {
   );
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const paginate = (e: any, value: number) => {
+  const paginate = (_e: any, value: number) => {
     setCurrentPage(value);
     window.scrollTo({ top: 1800, behavior: "smooth" });
   };
