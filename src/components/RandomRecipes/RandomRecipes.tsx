@@ -30,9 +30,10 @@ interface IRecipe {
 interface Props {
   randomRecipes: IRecipe[];
   addRecipe: (recipe: IRecipe) => void;
+  handleClick: () => void;
 }
 
-const RandomRecipes = ({ randomRecipes, addRecipe }: Props) => {
+const RandomRecipes = ({ randomRecipes, addRecipe, handleClick }: Props) => {
   const [currentPage, setCurrentPage] = useState(1);
   const recipesPerPage = 9;
 
@@ -43,7 +44,8 @@ const RandomRecipes = ({ randomRecipes, addRecipe }: Props) => {
     indexOfLastRecipe
   );
 
-  const paginate = (e, value: number) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const paginate = (e: any, value: number) => {
     setCurrentPage(value);
     window.scrollTo({ top: 1800, behavior: "smooth" });
   };
@@ -93,7 +95,7 @@ const RandomRecipes = ({ randomRecipes, addRecipe }: Props) => {
                   variant="outlined"
                   color="success"
                   sx={{ marginRight: "10px" }}
-                  onClick={() => addRecipe(recipe)}
+                  onClick={() => {addRecipe(recipe), handleClick()}}
                 >
                   Save
                 </Button>

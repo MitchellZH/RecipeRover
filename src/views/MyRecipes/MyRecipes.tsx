@@ -9,6 +9,7 @@ import {
   Typography,
   Stack,
   Pagination,
+  Alert,
 } from "@mui/material";
 import {
   DocumentData,
@@ -25,6 +26,7 @@ import { onAuthStateChanged } from "firebase/auth";
 
 const MyRecipes = () => {
   const [recipes, setRecipes] = useState<Array<DocumentData>>([]);
+  const [error_, setError_] = useState(false);
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -53,7 +55,7 @@ const MyRecipes = () => {
       const userId = auth.currentUser.uid;
 
       await deleteDoc(doc(db, "users", userId, "recipes", recipeTitle));
-
+      setError_(true)
       setRecipes((prevRecipes) =>
         prevRecipes.filter((recipe) => recipe.id !== recipeId)
       );
@@ -74,6 +76,21 @@ const MyRecipes = () => {
   return (
     <>
       <Nav />
+      <Stack
+        sx={{ display: error_ ? "block" : "none", width: "100%" }}
+        spacing={2}
+      >
+        <Alert
+          variant="outlined"
+          severity="error"
+          sx={{ backgroundColor: "rgba(0, 0, 0, .75)", color: "red" }}
+          onClose={() => {
+            setError_(false);
+          }}
+        >
+          Recipe removed.
+        </Alert>
+      </Stack>
       <Container sx={{ py: 8 }} maxWidth="lg">
         <Typography variant="h4" gutterBottom style={{ textAlign: "center" }}>
           My Recipes
@@ -111,7 +128,9 @@ const MyRecipes = () => {
                     <Typography variant="subtitle2">
                       <b>Category:</b>
                       <br></br>|{" "}
-                      {recipe.dishTypes.map((dishType: string) => dishType + " | ")}
+                      {recipe.dishTypes.map(
+                        (dishType: string) => dishType + " | "
+                      )}
                     </Typography>
                   </CardContent>
                   <CardActions>
@@ -129,7 +148,7 @@ const MyRecipes = () => {
                       color="error"
                       onClick={() => handleDelete(recipe.id, recipe.title)}
                     >
-                      Delete
+                      Remove
                     </Button>
                   </CardActions>
                 </Card>

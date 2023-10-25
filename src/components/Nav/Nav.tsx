@@ -82,7 +82,7 @@ export default function Nav() {
                   flexGrow: 1,
                 }}
               >
-                Cookbook Connect
+                Recipe Rover
               </Typography>
             </Link>
           </Box>
@@ -177,7 +177,7 @@ export default function Nav() {
                 color: "inherit",
               }}
             >
-              Cookbook Connect
+              Recipe Rover
             </Typography>
           </Link>
           {/* {end responsive menu} */}
@@ -187,7 +187,7 @@ export default function Nav() {
               <>
                 <Tooltip title="Open settings">
                   <IconButton disabled={true} sx={{ p: 0 }}>
-                    <Avatar alt="avatar" src={auth.currentUser?.photoURL} />
+                    <Avatar alt="avatar" src={auth.currentUser?.photoURL || ""} />
                   </IconButton>
                 </Tooltip>
                 <Button disabled sx={{ my: 2, display: "block" }}>

@@ -17,7 +17,7 @@ const ProfilePage = () => {
   useEffect(() => {
     console.log(auth.currentUser)
     onAuthStateChanged(auth, (user) => {
-      if (user) {
+      if (user?.photoURL) {
         const userImg: string = String(user.photoURL)
         setPhotoURL(userImg);
         console.log(userImg);

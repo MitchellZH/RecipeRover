@@ -16,6 +16,8 @@ import InputBase from "@mui/material/InputBase";
 import Divider from "@mui/material/Divider";
 import { doc, setDoc } from "firebase/firestore";
 import { auth, db } from "../../firebase";
+import { Snackbar } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 
 interface IRecipe {
   id: number;
@@ -71,6 +73,39 @@ export default function DemoHomePage() {
       instructions: [],
     },
   ]);
+  const [open, setOpen] = useState(false);
+
+  const handleClick = () => {
+    if (auth.currentUser) {
+      setOpen(true);
+    } else {
+      alert("please log in to use this feature");
+    }
+  };
+
+  const handleClose = (
+    _event: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+  const action = (
+    <>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleClose}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </>
+  );
 
   useEffect(() => {
     if (recipeName) {
@@ -94,21 +129,47 @@ export default function DemoHomePage() {
 
     if (response.ok) {
       const data = await response.json();
-      const recipes_: object[] = [{}];
+
+      const recipes_: IRecipe[] = [
+        {
+          id: 0,
+          title: "",
+          readyInMinutes: 0,
+          img: "",
+          summary: "",
+          dishTypes: [""],
+          healthScore: 0,
+          ingredients: [],
+          instructions: [],
+        },
+      ];
+
       recipes_.pop();
-      data.results.map((x) => {
-        recipes_.push({
-          id: x.id,
-          title: x.title,
-          readyInMinutes: x.readyInMinutes,
-          img: x.image,
-          summary: x.summary,
-          dishTypes: x.dishTypes,
-          healthScore: x.healthScore,
-          ingredients: x.extendedIngredients,
-          instructions: x.analyzedInstructions,
-        });
-      });
+      data.results.map(
+        (x: {
+          id: number;
+          title: string;
+          readyInMinutes: number;
+          image: string;
+          summary: string;
+          dishTypes: string[];
+          healthScore: number;
+          extendedIngredients: object[];
+          analyzedInstructions: object[];
+        }) => {
+          recipes_.push({
+            id: x.id,
+            title: x.title,
+            readyInMinutes: x.readyInMinutes,
+            img: x.image,
+            summary: x.summary,
+            dishTypes: x.dishTypes,
+            healthScore: x.healthScore,
+            ingredients: x.extendedIngredients,
+            instructions: x.analyzedInstructions,
+          });
+        }
+      );
       setSearchedRecipes(recipes_);
     }
   };
@@ -127,22 +188,52 @@ export default function DemoHomePage() {
 
     if (response.ok) {
       const data = await response.json();
-      const recipes_: object[] = [{}];
-      recipes_.pop();
-      data.recipes.map((x) => {
-        recipes_.push({
-          id: x.id,
-          title: x.title,
-          readyInMinutes: x.readyInMinutes,
-          img: x.image,
-          summary: x.summary,
-          dishTypes: x.dishTypes,
-          healthScore: x.healthScore,
-          ingredients: x.extendedIngredients,
-          instructions: x.analyzedInstructions,
-        });
-      });
-      setRandomRecipes(recipes_);
+
+      
+        const recipes_: IRecipe[] = [
+          {
+            id: 0,
+            title: "",
+            readyInMinutes: 0,
+            img: "",
+            summary: "",
+            dishTypes: [""],
+            healthScore: 0,
+            ingredients: [],
+            instructions: [],
+          },
+        ];
+
+        recipes_.pop();
+        data.recipes.map(
+          (x: {
+            id: number;
+            title: string;
+            readyInMinutes: number;
+            image: string;
+            summary: string;
+            dishTypes: string[];
+            healthScore: number;
+            extendedIngredients: object[];
+            analyzedInstructions: object[];
+          }) => {
+            recipes_.push({
+              id: x.id,
+              title: x.title,
+              readyInMinutes: x.readyInMinutes,
+              img: x.image,
+              summary: x.summary,
+              dishTypes: x.dishTypes,
+              healthScore: x.healthScore,
+              ingredients: x.extendedIngredients,
+              instructions: x.analyzedInstructions,
+            });
+          }
+        );
+        setRandomRecipes(recipes_);
+      
+        alert("Invalid data format for recipes");
+      
     }
   };
 
@@ -155,6 +246,15 @@ export default function DemoHomePage() {
 
   return (
     <>
+      <div>
+        <Snackbar
+          open={open}
+          autoHideDuration={6000}
+          onClose={handleClose}
+          message="Recipe added"
+          action={action}
+        />
+      </div>
       <Nav />
       <div className="hero-banner">
         <Container maxWidth="md">
@@ -235,9 +335,14 @@ export default function DemoHomePage() {
           <SearchedRecipes
             searchedRecipes={searchedRecipes}
             addRecipe={addRecipe}
+            handleClick={handleClick}
           />
         ) : (
-          <RandomRecipes randomRecipes={randomRecipes} addRecipe={addRecipe} />
+          <RandomRecipes
+            randomRecipes={randomRecipes}
+            addRecipe={addRecipe}
+            handleClick={handleClick}
+          />
         )}
       </main>
       <Box sx={{ bgcolor: "#494949", color: "white", p: 6 }} component="footer">
