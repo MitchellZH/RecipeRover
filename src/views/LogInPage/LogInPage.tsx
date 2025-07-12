@@ -3,7 +3,6 @@ import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -11,7 +10,7 @@ import Container from "@mui/material/Container";
 import { useState, FormEvent } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { Alert, Stack } from "@mui/material";
 
 export default function LogInPage() {
@@ -37,22 +36,21 @@ export default function LogInPage() {
         console.log(errorCode, errorMessage);
         setError_(true);
       });
-    
   };
 
   return (
     <>
-    <Stack
-      sx={{ display: error_ ? "block" : "none", width: "100%" }}
-      spacing={2}
-    >
+      <Stack
+        sx={{ display: error_ ? "block" : "none", width: "100%" }}
+        spacing={2}
+      >
         <Alert
           variant="outlined"
           severity="error"
           sx={{ backgroundColor: "black", color: "red" }}
           onClose={() => {
             setError_(false);
-          } }
+          }}
         >
           Login unsuccessful. Please try again.
         </Alert>
@@ -93,7 +91,8 @@ export default function LogInPage() {
                 name="email"
                 autoComplete="email"
                 autoFocus
-                onChange={(event) => setEmail(event.target.value)} />
+                onChange={(event) => setEmail(event.target.value)}
+              />
               <TextField
                 margin="normal"
                 required
@@ -103,10 +102,12 @@ export default function LogInPage() {
                 type="password"
                 id="password"
                 autoComplete="current-password"
-                onChange={(event) => setPassword(event.target.value)} />
+                onChange={(event) => setPassword(event.target.value)}
+              />
               <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
-                label="Remember me" />
+                label="Remember me"
+              />
               <Button
                 type="submit"
                 fullWidth
@@ -116,8 +117,7 @@ export default function LogInPage() {
                 Log In
               </Button>
               <Button
-                component={Link}
-                href="/"
+                onClick={() => navigate("/")}
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
@@ -127,9 +127,8 @@ export default function LogInPage() {
               <Grid container>
                 <Grid item>
                   <Link
-                    href="/register"
-                    variant="body2"
-                    style={{ color: "#be1e19" }}
+                    to="/register"
+                    style={{ color: "#be1e19", textDecoration: "none" }}
                   >
                     {"Don't have an account? Sign Up."}
                   </Link>
@@ -139,6 +138,6 @@ export default function LogInPage() {
           </Box>
         </Container>
       </div>
-      </>
+    </>
   );
 }

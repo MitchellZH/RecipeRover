@@ -4,7 +4,6 @@ import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import Box from "@mui/material/Box";
-import Link from "@mui/material/Link";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
@@ -12,17 +11,19 @@ import { useState, FormEvent } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase";
 import { Alert, Stack } from "@mui/material";
+import { useNavigate, Link } from "react-router-dom";
 
 export default function RegisterPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error_, setError_] = useState(false);
-  const [success, setSuccess ] = useState(false);
+  const [success, setSuccess] = useState(false);
 
+  const navigate = useNavigate();
 
   const handleSubmit = (event: FormEvent) => {
-    setError_(false)
-    setSuccess(false)
+    setError_(false);
+    setSuccess(false);
     event.preventDefault();
     console.log(email, password);
     createUserWithEmailAndPassword(auth, email, password)
@@ -35,9 +36,9 @@ export default function RegisterPage() {
         const errorCode = error.code;
         const errorMessage = error.message;
         console.log(errorCode, errorMessage);
-        setError_(true)
+        setError_(true);
       });
-    console.log(auth.currentUser)
+    console.log(auth.currentUser);
   };
 
   return (
@@ -134,8 +135,7 @@ export default function RegisterPage() {
                 Register
               </Button>
               <Button
-                component={Link}
-                href="/"
+                onClick={() => navigate("/")}
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
@@ -145,9 +145,8 @@ export default function RegisterPage() {
               <Grid container>
                 <Grid item>
                   <Link
-                    href="/log-in"
-                    variant="body2"
-                    style={{ color: "#be1e19" }}
+                    to="/log-in"
+                    style={{ color: "#be1e19", textDecoration: "none" }}
                   >
                     {"Already have an account? Log In."}
                   </Link>
